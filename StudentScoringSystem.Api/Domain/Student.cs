@@ -2,13 +2,14 @@ namespace StudentScoringSystem.Api.Domain;
 
 public class Student
 {
-    public string StudentName { get; set; }
+    public required string StudentName { get; set; }
     public int Age { get; set; }
+    public Guid Id = Guid.NewGuid();
     public Dictionary<string, int> Scores { get; set; } = new();
-
-    public Student(string name, int age)
+    public string Address { get; set; } = "";
+    public Student(string name, DateOnly dateOfBirth)
     {
         StudentName = name;
-        Age = age;
+        Age = AgeCalculator.GetAge(dateOfBirth);
     }
 }
