@@ -10,7 +10,7 @@ public record Score
             throw new ArgumentException("Not a valid integer.", nameof(number));
 
         if ((value < 0) || (value > 100))
-        { throw new IndexOutOfRangeException("Score must be between 0-100."); }
+        { throw new ArgumentOutOfRangeException("Score must be between 0-100."); }
 
 
         Value = value;
