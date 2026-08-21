@@ -12,6 +12,6 @@ public record Course
     if (value.Length > 100)
     { throw new Exception("Coursename cannot be longer then 100 characters");}
 
-    Value = value.ToUpper();
+    Value = value.Trim().ToUpper();
     }
 }

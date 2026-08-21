@@ -11,7 +11,7 @@ public record StudentName
         if (value.Length > 100)
         { throw new Exception("Studentname cannot be longer then 100 characters"); }
 
-        var splitName = value.Split(' ');
+        var splitName = value.Trim().Split(' ');
 
         var upperSplitName = splitName.Select(p => p.ToUpper()).ToArray();
 

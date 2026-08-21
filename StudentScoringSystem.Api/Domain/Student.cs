@@ -7,7 +7,7 @@ public class Student
     public DateOnly DateOfBirth { get; set; }
     public Guid Id = Guid.NewGuid();
     public Dictionary<Course, Score> Scores { get; set; } = new();
-    public string Address { get; set; } = "";
+    public required Address Address { get; set; }
     public Student(StudentName name, DateOnly dateOfBirth)
     {
         StudentName = name;
