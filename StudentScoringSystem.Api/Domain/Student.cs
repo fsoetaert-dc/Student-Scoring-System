@@ -8,10 +8,11 @@ public class Student
     public Guid Id = Guid.NewGuid();
     public Dictionary<Course, Score> Scores { get; set; } = new();
     public required Address Address { get; set; }
-    public Student(StudentName name, DateOnly dateOfBirth)
+    public Student(StudentName name, DateOnly dateOfBirth, Address address)
     {
         StudentName = name;
         Age = AgeCalculator.GetAge(dateOfBirth);
         DateOfBirth = dateOfBirth;
+        Address = address;
     }
 }

@@ -1,9 +1,8 @@
 using StudentScoringSystem.Api.Domain;
-using StudentScoringSystem.Api.Storage;
 
-namespace BookTracker.Api.Storage;
+namespace StudentScoringSystem.Api.Storage;
 
-public class InMemoryBookRepository : IStudentRepository
+public class InMemoryStudentRepository : IStudentRepository
 {
     private readonly List<Student> students = [ ];
 
@@ -14,7 +13,7 @@ public class InMemoryBookRepository : IStudentRepository
 
     public Task<Student?> GetByNameAsync(string studentName)
     {
-        var student = students.FirstOrDefault(book => book.StudentName == studentName);
+        var student = students.FirstOrDefault(book => book.StudentName.Value == studentName);
         return Task.FromResult(student);
     }
 

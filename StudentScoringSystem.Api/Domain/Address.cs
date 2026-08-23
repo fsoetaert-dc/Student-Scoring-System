@@ -22,8 +22,8 @@ public record Address
         if (!int.TryParse(stringPostalCode, out var value))
             throw new ArgumentException("Not a valid integer.", nameof(stringPostalCode));
 
-        if ((value < 0) || (value > 10000))
-        { throw new ArgumentOutOfRangeException("Postal code must be between 0-10000."); }
+        if ((value < 1000) || (value >= 10000))
+        { throw new ArgumentOutOfRangeException("Postal code must be between 1000-9999."); }
         PostalCode = value;
         Country = NormalizeRequired(country, nameof(country));
     }
