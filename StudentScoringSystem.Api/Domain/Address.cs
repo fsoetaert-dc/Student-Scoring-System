@@ -3,28 +3,31 @@ namespace StudentScoringSystem.Api.Domain;
 public record Address
 {
     public string Street { get; }
+    public int HouseNumber { get; }
     public string City { get; }
-    public string StateOrProvince { get; }
     public int PostalCode { get; }
     public string Country { get; }
 
     public Address(
         string street,
+        string houseNumber,
         string city,
-        string stateOrProvince,
         string postalCode,
         string country)
     {
         Street = NormalizeRequired(street, nameof(street));
+        var stringHouseNumber = NormalizeRequired(houseNumber, nameof(houseNumber));
+        if (!int.TryParse(stringHouseNumber, out var valueHouseNumber))
+            throw new ArgumentException("Not a valid integer.", nameof(stringHouseNumber));
+        HouseNumber = valueHouseNumber;
         City = NormalizeRequired(city, nameof(city));
-        StateOrProvince = NormalizeRequired(stateOrProvince, nameof(stateOrProvince));
         var stringPostalCode = NormalizeRequired(postalCode, nameof(postalCode));
-        if (!int.TryParse(stringPostalCode, out var value))
+        if (!int.TryParse(stringPostalCode, out var valuePotalCode))
             throw new ArgumentException("Not a valid integer.", nameof(stringPostalCode));
 
-        if ((value < 1000) || (value >= 10000))
+        if ((valuePotalCode < 1000) || (valuePotalCode >= 10000))
         { throw new ArgumentOutOfRangeException("Postal code must be between 1000-9999."); }
-        PostalCode = value;
+        PostalCode = valuePotalCode;
         Country = NormalizeRequired(country, nameof(country));
     }
 

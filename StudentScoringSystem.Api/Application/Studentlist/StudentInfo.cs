@@ -1,3 +1,5 @@
+using StudentScoringSystem.Api.Domain;
+
 namespace StudentScoringSystem.Api.Application.StudentList;
 
 public class StudentInfo
@@ -6,6 +8,6 @@ public class StudentInfo
     public int Age { get; set; }
     public DateOnly DateOfBirth { get; set; }
     public Guid Id { get; set; }
-    public string Address { get; set; } = "";
+    public required Address Address { get; set; }
 
 }

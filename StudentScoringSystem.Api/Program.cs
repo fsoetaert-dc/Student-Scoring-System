@@ -1,15 +1,27 @@
+using Microsoft.EntityFrameworkCore;
 using StudentScoringSystem.Api.Application;
 using StudentScoringSystem.Api.Storage;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddSingleton<IStudentRepository, InMemoryStudentRepository>();
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    options.UseSqlite(builder.Configuration.GetConnectionString("StudentScoringSystem"));
+});
+
+builder.Services.AddScoped<IStudentRepository, EfStudentRepository>();
 
 builder.Services.AddScoped<StudentService>();
 
 var app = builder.Build();
 
-app.MapGet("/students", async (StudentService service) => Results.Ok(await service.GetAllStudents()));
+if (app.Environment.IsDevelopment())
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        scope.ServiceProvider.GetRequiredService<AppDbContext>().Database.EnsureCreated();
+    }
+}
 
 app.Run();
 

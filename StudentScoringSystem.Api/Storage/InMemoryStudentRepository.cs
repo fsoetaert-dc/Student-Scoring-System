@@ -1,3 +1,4 @@
+using StudentScoringSystem.Api.Application.StudentList;
 using StudentScoringSystem.Api.Domain;
 
 namespace StudentScoringSystem.Api.Storage;
@@ -6,14 +7,25 @@ public class InMemoryStudentRepository : IStudentRepository
 {
     private readonly List<Student> students = [ ];
 
-    public Task<IReadOnlyList<Student>> GetAllAsync()
+    public Task<IReadOnlyList<StudentNameId>> GetAllStudentsAsync()
+    {
+        var studentNames = students.Select(s => new StudentNameId
+        {
+            StudentName = s.StudentName.Value,
+            Id = s.Id
+        })
+        .ToList();
+        return Task.FromResult<IReadOnlyList<StudentNameId>>(studentNames);
+    }
+
+    public Task<IReadOnlyList<Student>> GetAllStudentInfoAsync()
     {
         return Task.FromResult<IReadOnlyList<Student>>(students);
     }
 
-    public Task<Student?> GetByNameAsync(string studentName)
+    public Task<List<Student>> GetByNameAsync(string studentName)
     {
-        var student = students.FirstOrDefault(book => book.StudentName.Value == studentName);
+        var student = students.Where(book => book.StudentName.Value == studentName).ToList();
         return Task.FromResult(student);
     }
 
