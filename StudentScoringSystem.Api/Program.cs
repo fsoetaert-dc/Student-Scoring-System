@@ -9,9 +9,19 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("StudentScoringSystem"));
 });
 
-builder.Services.AddScoped< EfStudentRepository>();
-
+builder.Services.AddScoped<EfStudentRepository>();
 builder.Services.AddScoped<StudentService>();
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy
+            .WithOrigins("http://localhost:5173")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
 
 var app = builder.Build();
 
