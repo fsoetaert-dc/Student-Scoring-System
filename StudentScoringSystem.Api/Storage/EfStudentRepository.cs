@@ -1,13 +1,11 @@
 using StudentScoringSystem.Api.Domain;
 using Microsoft.EntityFrameworkCore;
 using StudentScoringSystem.Api.Application.StudentList;
-using StudentScoringSystem.Api.Application.UpdateStudent;
 
 namespace StudentScoringSystem.Api.Storage;
 
 public class EfStudentRepository(AppDbContext dbContext)
 {
-
     public async Task<IReadOnlyList<StudentNameId>> GetAllStudentsAsync()
     {
         return await dbContext.Students
@@ -75,10 +73,7 @@ public class EfStudentRepository(AppDbContext dbContext)
     {
         var student = await dbContext.Students.FindAsync(id);
 
-        if (student is null)
-        {
-            throw new Exception("Student not found");
-        }
+        if (student is null) throw new Exception("Student not found");
 
         return student;
     }

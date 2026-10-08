@@ -59,12 +59,6 @@ public class StudentService(EfStudentRepository studentRepository)
             );
     }
 
-    public async Task<bool> DeleteStudentAsync(Guid id)
-    {
-        var result = await studentRepository.DeleteStudentAsync(id);
-        return result;
-    }
-
     public async Task<Student> UpdateStudentAsync(UpdateStudentRequest request)
     {
         var student = await studentRepository.FindByIdAsync(request.Id);
@@ -87,7 +81,13 @@ public class StudentService(EfStudentRepository studentRepository)
         return await studentRepository.UpdateStudentAsync(student);
     }
 
+    public async Task<bool> DeleteStudentAsync(Guid id)
+    {
+        var result = await studentRepository.DeleteStudentAsync(id);
+        if (result is false) throw new Exception("Student not found");
 
+        return result;
+    }
 
 }
 

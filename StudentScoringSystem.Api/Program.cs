@@ -9,7 +9,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("StudentScoringSystem"));
 });
 
-builder.Services.AddScoped<IStudentRepository, EfStudentRepository>();
+builder.Services.AddScoped< EfStudentRepository>();
 
 builder.Services.AddScoped<StudentService>();
 

@@ -1,5 +1,6 @@
 using StudentScoringSystem.Api.Application;
 using StudentScoringSystem.Api.Application.CreateStudent;
+using StudentScoringSystem.Api.Application.UpdateStudent;
 
 namespace StudentScoringSystem.Api.Endpoints;
 
@@ -10,8 +11,8 @@ public static class StudentEndpoints
         app.MapGet("/students", GetAllStudentsAsync);
         app.MapGet("/students/{name:string}", GetByNameAsync);
         app.MapPost("/students", CreateStudent);
-        app.MapPut("/students/{name:string}", UpdateStudent);
-        app.MapDelete("/students", DeleteStudent);
+        app.MapPut("/students/{id:guid}", UpdateStudentAsync);
+        app.MapDelete("/students/{id:guid} ", DeleteStudent);
         return app;
     }
 
@@ -35,17 +36,17 @@ public static class StudentEndpoints
         return Results.Created($"/students/{response.StudentName}", response);
     }
 
-    public static async Task<IResult> UpdateStudent(string name, CreateStudentRequest request, StudentService service)
+    public static async Task<IResult> UpdateStudentAsync(UpdateStudentRequest request, StudentService service)
     {
-        var response = await service.UpdateStudent(name, request);
+        var response = await service.UpdateStudentAsync(request);
         if (response is null)
             return Results.NotFound();
         return Results.Ok(response);
     }
 
-    public static async Task<IResult> DeleteStudent(string name, StudentService service)
+    public static async Task<IResult> DeleteStudent(Guid id, StudentService service)
     {
-        var success = await service.DeleteStudent(name);
+        var success = await service.DeleteStudentAsync(id);
         if (!success)
             return Results.NotFound();
         return Results.NoContent();
