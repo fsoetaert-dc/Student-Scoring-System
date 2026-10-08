@@ -1,5 +1,5 @@
+using StudentScoringSystem.Api.Application.CreateStudent;
 using StudentScoringSystem.Api.Application.StudentList;
-using StudentScoringSystem.Api.Application.StudentList.CreateStudent;
 using StudentScoringSystem.Api.Domain;
 using StudentScoringSystem.Api.Storage;
 
@@ -29,6 +29,7 @@ public class StudentService(IStudentRepository studentRepository)
 
     public async Task<CreateStudentResponse> CreateStudent(CreateStudentRequest request)
     {
+
         var student = new Student()
         {
             StudentName = new StudentName(request.StudentName),
@@ -40,8 +41,8 @@ public class StudentService(IStudentRepository studentRepository)
                 request.PostalCode,
                 request.Country)
         };
-
         var savedStudent = await studentRepository.AddStudentAsync(student);
+        
 
         return new CreateStudentResponse(
             savedStudent.StudentName.Value,
@@ -56,5 +57,12 @@ public class StudentService(IStudentRepository studentRepository)
                 )
             );
     }
+
+    public async Task<List<Student>> GetByNameAsync(string studentName)
+    {
+        var students = await studentRepository.GetByNameAsync(studentName);
+        return students;
+    }
+
 }
 
