@@ -1,6 +1,7 @@
 using StudentScoringSystem.Api.Domain;
 using Microsoft.EntityFrameworkCore;
 using StudentScoringSystem.Api.Application.StudentList;
+using StudentScoringSystem.Api.Application.UpdateStudent;
 
 namespace StudentScoringSystem.Api.Storage;
 
@@ -15,6 +16,7 @@ public class EfStudentRepository(AppDbContext dbContext)
                 StudentName = s.StudentName.Value,
                 Id = s.Id
             })
+
             .AsNoTracking()
             .ToListAsync();
     }
@@ -59,5 +61,25 @@ public class EfStudentRepository(AppDbContext dbContext)
         dbContext.Students.Remove(student);
         await dbContext.SaveChangesAsync();
         return true;
+    }
+
+    public async Task<Student> UpdateStudentAsync(Student student)
+    {
+        dbContext.Students.Update(student);
+        await dbContext.SaveChangesAsync();
+        return student;
+
+    }
+
+    public async Task<Student> FindByIdAsync(Guid id)
+    {
+        var student = await dbContext.Students.FindAsync(id);
+
+        if (student is null)
+        {
+            throw new Exception("Student not found");
+        }
+
+        return student;
     }
 }

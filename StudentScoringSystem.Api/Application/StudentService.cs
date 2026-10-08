@@ -1,29 +1,30 @@
+
 using StudentScoringSystem.Api.Application.CreateStudent;
 using StudentScoringSystem.Api.Application.StudentList;
+using StudentScoringSystem.Api.Application.UpdateStudent;
 using StudentScoringSystem.Api.Domain;
 using StudentScoringSystem.Api.Storage;
 
 namespace StudentScoringSystem.Api.Application;
 
-public class StudentService(IStudentRepository studentRepository)
+public class StudentService(EfStudentRepository studentRepository)
 {
-    public async Task<IReadOnlyList<StudentInfo>> GetAllStudentInfo()
+    public async Task<IReadOnlyList<StudentNameId>> GetAllStudentsAsync()
     {
-        var students = await studentRepository.GetAllStudentInfoAsync();
-        var studentInfo = students.Select(s => new StudentInfo
-        {
-            StudentName = s.StudentName.Value,
-            DateOfBirth = s.DateOfBirth,
-            Id = s.Id,
-            Address = s.Address
-        }).ToList();
+        var students = await studentRepository.GetAllStudentsAsync();
+        return students;
+    }
+
+    public async Task<IReadOnlyList<StudentInfo>> GetAllStudentInfoAsync()
+    {
+        var studentInfo = await studentRepository.GetAllStudentInfoAsync();
 
         return studentInfo;
     }
 
-    public async Task<IReadOnlyList<StudentNameId>> GetAllStudentsAsync()
+        public async Task<List<Student>> GetByNameAsync(string studentName)
     {
-        var students = await studentRepository.GetAllStudentsAsync();
+        var students = await studentRepository.GetByNameAsync(studentName);
         return students;
     }
 
@@ -58,11 +59,35 @@ public class StudentService(IStudentRepository studentRepository)
             );
     }
 
-    public async Task<List<Student>> GetByNameAsync(string studentName)
+    public async Task<bool> DeleteStudentAsync(Guid id)
     {
-        var students = await studentRepository.GetByNameAsync(studentName);
-        return students;
+        var result = await studentRepository.DeleteStudentAsync(id);
+        return result;
     }
+
+    public async Task<Student> UpdateStudentAsync(UpdateStudentRequest request)
+    {
+        var student = await studentRepository.FindByIdAsync(request.Id);
+
+        if (student is null)
+        {
+            throw new Exception("Student not found");
+        }
+
+        student.StudentName = new StudentName(request.StudentName);
+        student.DateOfBirth = request.DateOfBirth;
+        student.Address = new Address(
+            request.Street,
+            request.HouseNumber,
+            request.City,
+            request.PostalCode,
+            request.Country
+        );
+
+        return await studentRepository.UpdateStudentAsync(student);
+    }
+
+
 
 }
 

@@ -1,5 +1,3 @@
-using StudentScoringSystem.Api.Domain;
-
 namespace StudentScoringSystem.Api.Application.CreateStudent;
 
 public record CreateStudentRequest
