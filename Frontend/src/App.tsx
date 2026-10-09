@@ -1,11 +1,11 @@
 import { Link, Route, Routes } from "react-router-dom";
 
 function HomePage() {
-  return <h1>Book Tracker</h1>;
+  return <h1>Student Scoring System</h1>;
 }
 
 function AboutPage() {
-  return <h1>About Book Tracker</h1>;
+  return <h1>About Student Scoring System</h1>;
 }
 
 export default function App() {
