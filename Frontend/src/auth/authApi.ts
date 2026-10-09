@@ -1,5 +1,5 @@
 import { apiRequest } from "../api";
-import type { CurrentMember, LoginRequest, LoginResponse } from "./types";
+import type { CurrentMember, LoginRequest, LoginResponse } from "../types";
 
 export function login(request: LoginRequest) {
   return apiRequest<LoginResponse>("/auth/login", {
