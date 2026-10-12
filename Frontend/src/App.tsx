@@ -1,4 +1,5 @@
 import { Link, Route, Routes } from "react-router-dom";
+import CreateStudent from "./students/createStudentPage";
 
 function HomePage() {
   return <h1>Student Scoring System</h1>;
@@ -14,11 +15,13 @@ export default function App() {
       <nav>
         <Link to="/">Home</Link>{" "}
         <Link to="/about">About</Link>
+        <Link to="/students/createStudent">Create student</Link>
       </nav>
 
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/students/createStudent" element={<CreateStudent />} />
       </Routes>
     </>
   );
