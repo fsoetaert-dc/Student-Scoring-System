@@ -1,7 +1,6 @@
 import { Link, Route, Routes } from "react-router-dom";
-import { AccountPage } from "./auth/AccountPage";
-import { LoginPage } from "./auth/LoginPage";
-import { LogoutButton } from "./auth/LogoutButton";
+import CreateStudent from "./students/createStudentPage";
+import { StudentListPage } from "./students/studentListPage";
 
 function HomePage() {
   return <h1>Student Scoring System</h1>;
@@ -12,15 +11,14 @@ export default function App() {
     <>
       <nav>
         <Link to="/">Home</Link>{" "}
-        <Link to="/login">Log in</Link>{" "}
-        <Link to="/account">Account</Link>{" "}
-        <LogoutButton />
+        <Link to="/students/createStudent">Create student</Link>
+        <Link to="/students">All students</Link>
       </nav>
 
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/account" element={<AccountPage />} />
+        <Route path="/students/createStudent" element={<CreateStudent />} />
+        <Route path="/students" element={<StudentListPage />} />
       </Routes>
     </>
   );

@@ -1,13 +1,61 @@
-import { apiRequest } from "../api";
-import type { StudentNameId, GetStudentsRequest } from "../types";
+import type { CreateStudentRequest, CreateStudentResponse, StudentName } from "./Types";
 
-export function getStudents(request: GetStudentsRequest) {
-    const parameters = new URLSearchParams();
+const apiUrl = import.meta.env.VITE_API_URL;
 
-    if (request.search) {
-    parameters.set("search", request.search);
+export function getStudents(search: string) {
+    const params = new URLSearchParams();
+
+    if (search) {
+        params.set("search", search);
+    }
+
+    return apiRequest<StudentName[]>('/students?${params.toString()}');
+}
+
+export function createStudent(request: CreateStudentRequest) {
+  return apiRequest<CreateStudentResponse>("/students", {
+    method: "POST",
+    body: JSON.stringify(request),
+  });
+}
+
+export async function apiRequest<T>(
+  path: string,
+  options: RequestInit = {},
+): Promise<T> {
+  const response = await sendRequest(path, options);
+  return response.json() as Promise<T>;
+}
+
+async function sendRequest(path: string, options: RequestInit) {
+  const headers = new Headers(options.headers);
+
+  headers.set("Accept", "application/json");
+
+  if (options.body) {
+    headers.set("Content-Type", "application/json");
   }
 
-  return apiRequest<StudentNameId>(
-    `/students?${parameters.toString()}`,
+  const response = await fetch(`${apiUrl}${path}`, {
+    ...options,
+    headers,
+  });
+
+  if (!response.ok) {
+    throw new ApiError(
+      response.status,
+      `Request failed with status ${response.status}`,
+    );
+  }
+
+  return response;
+}
+
+export class ApiError extends Error {
+  status: number;
+
+  constructor(status: number, message: string) {
+    super(message);
+    this.status = status;
+  }
 }
