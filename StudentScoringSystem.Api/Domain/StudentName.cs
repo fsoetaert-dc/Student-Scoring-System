@@ -3,12 +3,13 @@ namespace StudentScoringSystem.Api.Domain;
 public record StudentName
 {
     public string Value { get; }
+    public static int MaxLength = 100;
     public StudentName(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
         { throw new NullReferenceException("Studentname cannot be empty"); }
 
-        if (value.Length > 100)
+        if (value.Length > MaxLength)
         { throw new Exception("Studentname cannot be longer then 100 characters"); }
 
         var splitName = value.Trim().Split(' ');
