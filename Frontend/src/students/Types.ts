@@ -35,3 +35,20 @@ export type UpdateStudentRequest = {
     country: string;
   };
 };
+
+export type StudentName = {
+  id: string;
+  name: string;
+};
+
+export type NewStudent = {
+  name: string;
+  dateOfBirth: string;
+  address: {
+    street: string;
+    houseNumber: string;
+    city: string;
+    postalCode: string;
+    country: string;
+  };
+};

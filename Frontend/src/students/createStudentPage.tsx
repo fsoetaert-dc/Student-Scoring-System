@@ -2,18 +2,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import type { FormEvent } from "react";
 import "../App.css";
+import type { NewStudent } from "./Types";
 
-type NewStudent = {
-  name: string;
-  dateOfBirth: string;
-  address: {
-    street: string;
-    houseNumber: string;
-    city: string;
-    postalCode: string;
-    country: string;
-  };
-};
 
 export default function CreateStudentPage() {
   const queryClient = useQueryClient();

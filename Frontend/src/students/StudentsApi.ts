@@ -1,6 +1,16 @@
-import type { CreateStudentRequest, CreateStudentResponse } from "./Types";
+import type { CreateStudentRequest, CreateStudentResponse, StudentName } from "./Types";
 
 const apiUrl = import.meta.env.VITE_API_URL;
+
+export function getStudents(search: string) {
+    const params = new URLSearchParams();
+
+    if (search) {
+        params.set("search", search);
+    }
+
+    return apiRequest<StudentName[]>('/students?${params.toString()}');
+}
 
 export function createStudent(request: CreateStudentRequest) {
   return apiRequest<CreateStudentResponse>("/students", {
